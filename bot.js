@@ -9,6 +9,9 @@ const path = require("path");
 const callSendAPI = require("./functions/message/call_send_api");
 const sendTextMessage = require("./functions/message/send_text");
 const sendGenericMessage = require("./functions/message/send_generic");
+
+const textHandler = require("./listeners/text");
+
 var messengerButton =
   '<html><head><title>Facebook Messenger Bot</title></head><body><h1>Facebook Messenger Bot</h1>This is a bot based on Messenger Platform QuickStart. For more details, see their <a href="https://developers.facebook.com/docs/messenger-platform/guides/quick-start">docs</a>.<script src="https://button.glitch.me/button.js" data-style="glitch"></script><div class="glitchButton" style="position:fixed;top:20px;right:20px;"></div></body></html>';
 
@@ -97,16 +100,7 @@ function receivedMessage(event) {
   var messageAttachments = message.attachments;
 
   if (messageText) {
-    // If we receive a text message, check to see if it matches a keyword
-    // and send back the template example. Otherwise, just echo the text we received.
-    //     switch (messageText) {
-    //       case 'generic':
-    //         sendGenericMessage(senderID);
-    //         break;
-    //       default:
-    //         sendTextMessage(senderID, messageText);
-    //     }
-    
+    textHandler(senderID, messageText);
   } else if (messageAttachments) {
     sendTextMessage(senderID, "Message with attachment received");
   }
