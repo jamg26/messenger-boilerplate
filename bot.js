@@ -6,6 +6,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const request = require('request');
 const path = require('path');
+const callSendAPI = require('./functions/message')
 var messengerButton = "<html><head><title>Facebook Messenger Bot</title></head><body><h1>Facebook Messenger Bot</h1>This is a bot based on Messenger Platform QuickStart. For more details, see their <a href=\"https://developers.facebook.com/docs/messenger-platform/guides/quick-start\">docs</a>.<script src=\"https://button.glitch.me/button.js\" data-style=\"glitch\"></script><div class=\"glitchButton\" style=\"position:fixed;top:20px;right:20px;\"></div></body></html>";
 
 // The rest of the code implements the routes for our Express server.
@@ -181,27 +182,27 @@ function sendGenericMessage(recipientId) {
   callSendAPI(messageData);
 }
 
-function callSendAPI(messageData) {
-  request({
-    uri: 'https://graph.facebook.com/v2.6/me/messages',
-    qs: { access_token: process.env.PAGE_ACCESS_TOKEN },
-    method: 'POST',
-    json: messageData
+// function callSendAPI(messageData) {
+//   request({
+//     uri: 'https://graph.facebook.com/v2.6/me/messages',
+//     qs: { access_token: process.env.PAGE_ACCESS_TOKEN },
+//     method: 'POST',
+//     json: messageData
 
-  }, function (error, response, body) {
-    if (!error && response.statusCode == 200) {
-      var recipientId = body.recipient_id;
-      var messageId = body.message_id;
+//   }, function (error, response, body) {
+//     if (!error && response.statusCode == 200) {
+//       var recipientId = body.recipient_id;
+//       var messageId = body.message_id;
 
-      console.log("Successfully sent generic message with id %s to recipient %s", 
-        messageId, recipientId);
-    } else {
-      console.error("Unable to send message.");
-      console.error(response);
-      console.error(error);
-    }
-  });  
-}
+//       console.log("Successfully sent generic message with id %s to recipient %s", 
+//         messageId, recipientId);
+//     } else {
+//       console.error("Unable to send message.");
+//       console.error(response);
+//       console.error(error);
+//     }
+//   });  
+// }
 
 // Set Express to listen out for HTTP requests
 var server = app.listen(process.env.PORT || 3000, function () {
